@@ -1,16 +1,25 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+let razorpay = null;
+
+if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+  razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+}
 
 /**
  * amountInRupees: number (e.g. 500 for ₹500)
  * Returns a Razorpay order object. Amount must be sent to Razorpay in paise.
  */
 async function createOrder(amountInRupees, receiptId) {
+ 
+  if (!razorpay) {
+  throw new Error("Razorpay is not configured");
+}
+
   const order = await razorpay.orders.create({
     amount: Math.round(amountInRupees * 100),
     currency: 'INR',
