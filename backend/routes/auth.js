@@ -41,12 +41,19 @@ router.post('/login', (req, res) => {
   const { email, password } = req.body;
   const retailer = db.prepare('SELECT * FROM retailers WHERE email = ?').get(email);
 
+  console.log(retailer);
+
   if (!retailer) return res.status(401).json({ error: 'Invalid credentials' });
   if (retailer.status !== 'active') {
     return res.status(403).json({ error: `Account is ${retailer.status}. Contact admin.` });
   }
   if (!bcrypt.compareSync(password, retailer.password_hash)) {
     return res.status(401).json({ error: 'Invalid credentials' });
+
+    console.log("Retailer:", retailer);
+console.log("Entered Password:", password);
+console.log("Stored Hash:", retailer?.password_hash);
+
   }
 
   const deliverTo = retailer.two_fa_method === 'mobile' ? retailer.mobile : retailer.email;
