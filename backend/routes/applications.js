@@ -2,14 +2,13 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { execFile } = require('child_process');
 const { v4: uuidv4 } = require('uuid');
 const db = require('../config/db');
 const { requireAuth, requireRole } = require('../middleware/auth');
+const { generatePdf } = require('../pdf_engine_js/generatePdf');
 
 const router = express.Router();
 
-const PDF_ENGINE_DIR = path.join(__dirname, '..', 'pdf_engine');
 const TEMPLATES_DIR = path.join(__dirname, '..', 'pdf_templates');
 const GENERATED_DIR = path.join(__dirname, '..', 'generated_pdfs');
 if (!fs.existsSync(GENERATED_DIR)) fs.mkdirSync(GENERATED_DIR, { recursive: true });
@@ -21,31 +20,22 @@ const TEMPLATE_BY_TYPE = {
 
 /**
  * Fills the official NSDL-style PDF (Form 93 or the correction form) with
- * this application's data by shelling out to the Python field-mapping
- * engine in pdf_engine/. Resolves with the output file path, or rejects
- * with a message safe to show the retailer.
+ * this application's data using the pure-Node pdf-lib engine in
+ * pdf_engine_js/ — no python3 runtime required (Railway's Node builder
+ * doesn't provide one, which is what broke the old Python version).
  */
-function generateFilledPdf(application) {
-  return new Promise((resolve, reject) => {
-    const template = TEMPLATE_BY_TYPE[application.application_type];
-    if (!template) return reject(new Error('Unknown application type'));
+async function generateFilledPdf(application) {
+  const template = TEMPLATE_BY_TYPE[application.application_type];
+  if (!template) throw new Error('Unknown application type');
 
-    const outputPath = path.join(GENERATED_DIR, `${application.id}.pdf`);
-    const child = execFile(
-      'python3',
-      [path.join(PDF_ENGINE_DIR, 'generate_pdf.py'), application.application_type, template, outputPath],
-      { timeout: 20000 },
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error('PDF generation failed:', stderr || error.message);
-          return reject(new Error('Could not generate the sample PDF. Please try again or contact support.'));
-        }
-        resolve(outputPath);
-      }
-    );
-    child.stdin.write(JSON.stringify(application));
-    child.stdin.end();
-  });
+  const outputPath = path.join(GENERATED_DIR, `${application.id}.pdf`);
+  try {
+    await generatePdf(application, template, outputPath);
+    return outputPath;
+  } catch (err) {
+    console.error('PDF generation failed:', err);
+    throw new Error('Could not generate the sample PDF. Please try again or contact support.');
+  }
 }
 
 const upload = multer({
