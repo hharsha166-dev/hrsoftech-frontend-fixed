@@ -48,9 +48,9 @@ function buildFields(app) {
   add(textField(1, 86.8, 225.7, 232.7, last));
 
   const gender = (app.gender || '').toLowerCase();
-  const genderTickX = { male: 202.0, female: 250.5, transgender: 309.1 };
+  const genderTickX = { male: 188.5, female: 234.7, transgender: 295.8 };
   if (genderTickX[gender] !== undefined) {
-    add(tick(1, genderTickX[gender] + 5, 297.0, 304.0));
+    add(tick(1, genderTickX[gender], 297.0, 304.0));
   }
 
   if (app.dob) {
@@ -84,9 +84,9 @@ function buildFields(app) {
   add(textField(1, 449.2, 518.6, 525.6, off.pincode, 560));
 
   const resStatus = (app.residential_status || '').toLowerCase();
-  const resStatusX = { resident: 233.0, non_resident: 295.1, rnor: 372.3 };
+  const resStatusX = { resident: 218.3, non_resident: 280.4, rnor: 357.6 };
   if (resStatusX[resStatus] !== undefined) {
-    add(tick(1, resStatusX[resStatus] - 20, 535.8, 541.8));
+    add(tick(1, resStatusX[resStatus], 535.8, 541.8));
   }
 
   add(textField(1, 117.1, 555.7, 562.7, app.passport_number));
@@ -99,8 +99,8 @@ function buildFields(app) {
   add(textField(1, 365.2, 632.7, 639.7, app.landline_number));
 
   const incomeX = {
-    salary: 181.4, business: 258.3, house_property: 396.7,
-    capital_gains: 181.4, other: 258.4, none: 397.3,
+    salary: 186.8, business: 263.7, house_property: 402.1,
+    capital_gains: 186.8, other: 263.8, none: 402.65,
   };
   const incomeY = {
     salary: [672.8, 678.8], business: [672.8, 678.8], house_property: [672.8, 678.8],
@@ -110,14 +110,14 @@ function buildFields(app) {
     const key = src.toLowerCase();
     if (incomeX[key] !== undefined) {
       const [t, b] = incomeY[key];
-      add(tick(1, incomeX[key] + 5, t, b));
+      add(tick(1, incomeX[key], t, b));
     }
   }
 
   const singleParent = (app.single_parent || '').toLowerCase();
-  const spX = { yes: 242.7, no: 304.2 };
+  const spX = { yes: 248.1, no: 309.6 };
   if (spX[singleParent] !== undefined) {
-    add(tick(1, spX[singleParent] + 5, 728.0, 734.0));
+    add(tick(1, spX[singleParent], 728.0, 734.0));
   }
 
   const [fFirst, fMiddle, fLast] = splitName(app.father_name);
@@ -132,9 +132,9 @@ function buildFields(app) {
   add(textField(2, 114.7, 52.2, 59.2, mLast));
 
   const parentOnCard = (app.parent_on_card || '').toLowerCase();
-  const pocX = { father: 361.6, mother: 420.4 };
+  const pocX = { father: 341.0, mother: 402.4 };
   if (pocX[parentOnCard] !== undefined) {
-    add(tick(2, pocX[parentOnCard] - 25, 69.4, 75.4));
+    add(tick(2, pocX[parentOnCard], 69.4, 75.4));
   }
 
   add(textField(2, 226.6, 109.8, 116.8, app.ao_area_code, 320));
@@ -166,19 +166,19 @@ function buildFields(app) {
   add(textField(2, 355.8, 383.4, 390.4, app.ra_landline_number));
 
   const comm = (app.communication_address || '').toLowerCase();
-  const commX = { residence: 215.9, ra: 301.9, office: 447.8 };
+  const commX = { residence: 221.25, ra: 307.3, office: 453.2 };
   if (commX[comm] !== undefined) {
-    add(tick(2, commX[comm] + 5, 419.4, 425.4));
+    add(tick(2, commX[comm], 419.4, 425.4));
   }
 
-  const docAppX = { identity: 70.5, address: 169.1, dob: 270.0 };
+  const docAppX = { identity: 75.9, address: 174.5, dob: 275.4 };
   for (const d of (app.documents_applicant || [])) {
-    if (docAppX[d] !== undefined) add(tick(2, docAppX[d] + 5, 476.5, 482.5));
+    if (docAppX[d] !== undefined) add(tick(2, docAppX[d], 476.5, 482.5));
   }
 
-  const docRaX = { identity: 70.5, address: 169.1 };
+  const docRaX = { identity: 75.9, address: 174.5 };
   for (const d of (app.documents_ra || [])) {
-    if (docRaX[d] !== undefined) add(tick(2, docRaX[d] + 5, 513.6, 519.6));
+    if (docRaX[d] !== undefined) add(tick(2, docRaX[d], 513.6, 519.6));
   }
 
   return fields;
