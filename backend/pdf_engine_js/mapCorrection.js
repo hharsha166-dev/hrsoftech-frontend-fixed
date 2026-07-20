@@ -59,8 +59,8 @@ function buildFields(app) {
 
   if (changeFields.has('gender')) rowTick(1, 306.4, 312.4);
   const gender = (app.gender || '').toLowerCase();
-  const genderTickX = { male: 201.0, female: 250.5, transgender: 309.1 };
-  if (genderTickX[gender] !== undefined) add(tick(1, genderTickX[gender] + 5, 306.1, 312.1));
+  const genderTickX = { male: 184.5, female: 230.65, transgender: 291.7 };
+  if (genderTickX[gender] !== undefined) add(tick(1, genderTickX[gender], 306.1, 312.1));
 
   if (changeFields.has('dob')) rowTick(1, 319.8, 325.8);
   if (app.dob) {
@@ -75,8 +75,8 @@ function buildFields(app) {
 
   if (changeFields.has('address')) rowTick(1, 336.6, 342.6);
   const addrType = (app.address_type || 'residence').toLowerCase();
-  const addrTypeX = { residence: 180.7, office: 263.1 };
-  if (addrTypeX[addrType] !== undefined) add(tick(1, addrTypeX[addrType] + 5, 353.7, 359.7));
+  const addrTypeX = { residence: 186.05, office: 268.45 };
+  if (addrTypeX[addrType] !== undefined) add(tick(1, addrTypeX[addrType], 353.7, 359.7));
   add(textField(1, 111.7, 368.0, 375.0, res.line1));
   add(textField(1, 126.8, 381.4, 388.4, res.line2));
   add(textField(1, 90.4, 394.8, 401.8, res.post_office));
@@ -113,16 +113,16 @@ function buildFields(app) {
   add(textField(1, 160.2, 674.5, 681.5, mLast));
 
   const parentOnCard = (app.parent_on_card || '').toLowerCase();
-  const pocX = { father: 375.4, mother: 439.6 };
-  if (pocX[parentOnCard] !== undefined) add(tick(1, pocX[parentOnCard] - 30, 691.6, 697.6));
+  const pocX = { father: 351.15, mother: 419.5 };
+  if (pocX[parentOnCard] !== undefined) add(tick(1, pocX[parentOnCard], 691.6, 697.6));
 
-  const docX = { identity: 70.5, address: 169.1, dob: 270.0 };
+  const docX = { identity: 75.9, address: 174.5, dob: 275.4 };
   for (const d of (app.documents || [])) {
-    if (docX[d] !== undefined) add(tick(1, docX[d] + 5, 752.8, 758.8));
+    if (docX[d] !== undefined) add(tick(1, docX[d], 752.8, 758.8));
   }
-  const docX2 = { other_proof: 70.5, pan_copy: 269.9 };
+  const docX2 = { other_proof: 75.9, pan_copy: 275.3 };
   for (const d of (app.documents || [])) {
-    if (docX2[d] !== undefined) add(tick(1, docX2[d] + 5, 776.8, 782.8));
+    if (docX2[d] !== undefined) add(tick(1, docX2[d], 776.8, 782.8));
   }
 
   // Page 2 (Verification & Declaration) is filled by hand at signing time.
