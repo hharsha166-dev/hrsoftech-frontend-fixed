@@ -1,34 +1,35 @@
-const Database = require('better-sqlite3');
+const { Pool } = require('pg');
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 
-const DB_PATH = path.join(__dirname, '..', 'data.sqlite');
-const db = new Database(DB_PATH);
+// DATABASE_URL comes from your Neon/Supabase project, e.g.:
+// postgresql://user:password@host/dbname?sslmode=require
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }, // required by Neon/Supabase
+});
 
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
-
-function migrate() {
+async function migrate() {
   const schema = fs.readFileSync(path.join(__dirname, '..', 'db', 'schema.sql'), 'utf8');
-  db.exec(schema);
+  await pool.query(schema);
 
-  // CREATE TABLE IF NOT EXISTS won't add new columns to an already-existing
-  // table, so patch older databases created before generated_pdf_path existed.
+  // Safe no-op if the column already exists (kept in case of an older DB).
   try {
-    db.exec('ALTER TABLE applications ADD COLUMN generated_pdf_path TEXT');
+    await pool.query('ALTER TABLE applications ADD COLUMN IF NOT EXISTS generated_pdf_path TEXT');
   } catch (err) {
-    if (!/duplicate column name/i.test(err.message)) throw err;
+    console.error('Migration warning:', err.message);
   }
 
-  const adminCount = db.prepare('SELECT COUNT(*) as c FROM admins').get().c;
-  if (adminCount === 0) {
-    const tempPassword = uuidv4().slice(0, 10);
+  const { rows } = await pool.query('SELECT COUNT(*)::int AS c FROM admins');
+  if (rows[0].c === 0) {
+    const tempPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'HrSoftech@2026';
     const hash = bcrypt.hashSync(tempPassword, 10);
-    db.prepare(
-      'INSERT INTO admins (id, name, email, password_hash) VALUES (?, ?, ?, ?)'
-    ).run(uuidv4(), 'Super Admin', 'admin@hrsoftech.local', hash);
+    await pool.query(
+      'INSERT INTO admins (id, name, email, password_hash) VALUES ($1, $2, $3, $4)',
+      [uuidv4(), 'Super Admin', 'admin@hrsoftech.local', hash]
+    );
 
     console.log('====================================================');
     console.log('First-run admin account created:');
@@ -39,6 +40,9 @@ function migrate() {
   }
 }
 
-migrate();
+migrate().catch((err) => {
+  console.error('Database migration failed:', err);
+  process.exit(1);
+});
 
-module.exports = db;
+module.exports = pool;
