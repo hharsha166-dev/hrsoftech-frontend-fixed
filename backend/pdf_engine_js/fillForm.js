@@ -51,10 +51,8 @@ async function fillPdfForm(inputPdfPath, fieldsData, outputPdfPath) {
 const boxWidth = field.boxWidth || 10.5;
 
 chars.forEach((char, index) => {
-  const charWidth = font.widthOfTextAtSize(char, fontSize);
-
   page.drawText(char, {
-    x: left + (index * boxWidth) + ((boxWidth - charWidth) / 2),
+    x: left + (index * boxWidth),
     y: baselineY,
     size: fontSize,
     font,
@@ -63,8 +61,6 @@ chars.forEach((char, index) => {
 });
 
 count += 1;
-    count += 1;
-  }
 
   const outputBytes = await pdfDoc.save();
   fs.writeFileSync(outputPdfPath, outputBytes);
