@@ -18,11 +18,6 @@ const TEMPLATE_BY_TYPE = {
   correction: path.join(TEMPLATES_DIR, 'correction.pdf'),
 };
 
-/**
- * Fills the official NSDL-style PDF (Form 93 or the correction form) with
- * this application's data using the pure-Node pdf-lib engine in
- * pdf_engine_js/ — no python3 runtime required.
- */
 async function generateFilledPdf(application) {
   const template = TEMPLATE_BY_TYPE[application.application_type];
   if (!template) throw new Error('Unknown application type');
@@ -58,7 +53,6 @@ const uploadFields = upload.fields([
 ]);
 
 async function submitToNsdl(application) {
-  // TODO: replace with real integration.
   return { ack_number: null, status: 'under_process' };
 }
 
@@ -66,9 +60,17 @@ async function submitToNsdl(application) {
 router.post('/', requireAuth, requireRole('retailer'), async (req, res) => {
   try {
     const {
-      application_type, full_name, father_name, mother_name, dob, gender,
-      aadhaar_number, existing_pan, correction_fields,
-      address_line1, address_line2, city, state, pincode, mobile, email,
+      application_type,
+      full_name, name_as_per_aadhaar, father_name, mother_name, parent_on_card, single_parent,
+      dob, gender, aadhaar_number, existing_pan, correction_fields,
+      address_line1, address_line2, post_office, city, district, state, pincode,
+      office_address_line1, office_address_line2, office_post_office, office_city,
+      office_district, office_state, office_pincode,
+      communication_address, residential_status, passport_number, tin,
+      mobile_country_code, mobile, email, landline_isd_code, landline_std_code, landline_number,
+      source_of_income,
+      ao_area_code, ao_type, ao_range_code, ao_no,
+      proof_of_identity, proof_of_address, proof_of_dob, verifier_name,
     } = req.body;
 
     if (!['new_pan', 'correction'].includes(application_type)) {
@@ -82,14 +84,45 @@ router.post('/', requireAuth, requireRole('retailer'), async (req, res) => {
     const id = uuidv4();
     await db.query(
       `INSERT INTO applications
-        (id, retailer_id, application_type, full_name, father_name, mother_name, dob, gender,
-         aadhaar_number, existing_pan, correction_fields, address_line1, address_line2, city,
-         state, pincode, mobile, email)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
+        (id, retailer_id, application_type,
+         full_name, name_as_per_aadhaar, father_name, mother_name, parent_on_card, single_parent,
+         dob, gender, aadhaar_number, existing_pan, correction_fields,
+         address_line1, address_line2, post_office, city, district, state, pincode,
+         office_address_line1, office_address_line2, office_post_office, office_city,
+         office_district, office_state, office_pincode,
+         communication_address, residential_status, passport_number, tin,
+         mobile_country_code, mobile, email, landline_isd_code, landline_std_code, landline_number,
+         source_of_income,
+         ao_area_code, ao_type, ao_range_code, ao_no,
+         proof_of_identity, proof_of_address, proof_of_dob, verifier_name)
+       VALUES
+        ($1, $2, $3,
+         $4, $5, $6, $7, $8, $9,
+         $10, $11, $12, $13, $14,
+         $15, $16, $17, $18, $19, $20, $21,
+         $22, $23, $24, $25,
+         $26, $27, $28,
+         $29, $30, $31, $32,
+         $33, $34, $35, $36, $37, $38,
+         $39,
+         $40, $41, $42, $43,
+         $44, $45, $46, $47)`,
       [
-        id, req.user.id, application_type, full_name, father_name, mother_name, dob, gender,
-        aadhaar_number, existing_pan || null, correction_fields ? JSON.stringify(correction_fields) : null,
-        address_line1, address_line2, city, state, pincode, mobile, email,
+        id, req.user.id, application_type,
+        full_name, name_as_per_aadhaar || null, father_name || null, mother_name || null,
+        parent_on_card || null, single_parent || null,
+        dob || null, gender || null, aadhaar_number || null, existing_pan || null,
+        correction_fields ? JSON.stringify(correction_fields) : null,
+        address_line1 || null, address_line2 || null, post_office || null, city || null,
+        district || null, state || null, pincode || null,
+        office_address_line1 || null, office_address_line2 || null, office_post_office || null,
+        office_city || null, office_district || null, office_state || null, office_pincode || null,
+        communication_address || null, residential_status || null, passport_number || null, tin || null,
+        mobile_country_code || null, mobile || null, email || null,
+        landline_isd_code || null, landline_std_code || null, landline_number || null,
+        source_of_income ? JSON.stringify(source_of_income) : null,
+        ao_area_code || null, ao_type || null, ao_range_code || null, ao_no || null,
+        proof_of_identity || null, proof_of_address || null, proof_of_dob || null, verifier_name || null,
       ]
     );
 
