@@ -17,12 +17,16 @@ function splitName(fullName) {
   return [first, middle, last];
 }
 
-function textField(page, left, top, bottom, text, right = 560, fontSize = 8) {
+function textField(page, left, top, bottom, text, right = 560, fontSize = 8, boxWidth = 12) {
   if (!text) return null;
   return {
     page_number: page,
     entry_bounding_box: [left + 4, top - 0.5, right, bottom + 0.5],
-    entry_text: { text: String(text), font_size: fontSize },
+    entry_text: {
+  text: String(text),
+  font_size: fontSize,
+},
+boxWidth,
   };
 }
 
@@ -30,7 +34,7 @@ function tick(page, cx, top, bottom, halfW = 6) {
   return {
     page_number: page,
     entry_bounding_box: [cx - halfW, top - 0.3, cx + halfW, bottom + 0.3],
-    entry_text: { text: 'X', font_size: Math.min(6, bottom - top - 0.6) },
+    entry_text: { text: '✔', font_size: Math.min(6, bottom - top - 0.6) },
   };
 }
 
