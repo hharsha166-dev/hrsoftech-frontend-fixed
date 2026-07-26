@@ -46,13 +46,20 @@ async function fillPdfForm(inputPdfPath, fieldsData, outputPdfPath) {
     // similarly to how the previous FreeText annotations rendered.
     const baselineY = boxBottomY + Math.max((boxHeight - fontSize) / 2, 0.5);
 
-    page.drawText(text, {
-      x: left,
-      y: baselineY,
-      size: fontSize,
-      font,
-      color: rgb(0, 0, 0),
-    });
+    const chars = text.split("");
+
+// box width (ಅಗತ್ಯವಿದ್ದರೆ ನಂತರ adjust ಮಾಡಬಹುದು)
+const boxWidth = field.boxWidth || 12;
+
+chars.forEach((char, index) => {
+  page.drawText(char, {
+    x: left + (index * boxWidth),
+    y: baselineY,
+    size: fontSize,
+    font,
+    color: rgb(0, 0, 0),
+  });
+});
     count += 1;
   }
 
