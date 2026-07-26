@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 const GENDER_OPTIONS = ['Male', 'Female', 'Transgender'];
+const PAN_CATEGORY_OPTIONS = [
+  'Individual', 'Association of Persons', 'Body of Individuals', 'Firm',
+  'Limited Liability Partnership', 'Government', 'Hindu Undivided Family',
+  'Artificial Juridical Person', 'Local Authority', 'Trust',
+];
 const RESIDENTIAL_STATUS_OPTIONS = [
   { value: 'resident', label: 'Resident' },
   { value: 'non_resident', label: 'Non Resident' },
@@ -34,6 +39,7 @@ const DOCUMENT_OPTIONS = [
 ];
 
 const emptyForm = {
+  category_of_applicant: 'Individual',
   first_name: '', middle_name: '', last_name: '',
   name_as_per_aadhaar: '', gender: '', dob: '', aadhaar_number: '',
   communication_address: 'residence',
@@ -95,6 +101,7 @@ export default function NewPanApplication() {
 
       const { data } = await api.post('/applications', {
         application_type: 'new_pan',
+        category_of_applicant: form.category_of_applicant,
         full_name,
         name_as_per_aadhaar: form.name_as_per_aadhaar,
         gender: form.gender.toLowerCase(),
@@ -176,8 +183,14 @@ export default function NewPanApplication() {
       <form onSubmit={handleSubmitDetails} className="card">
         <div className="section-title">Application For New PAN</div>
 
-        <label>Category Of Applicant</label>
-        <input value="Individual" disabled />
+        <label>Category Of Applicant *</label>
+        <select value={form.category_of_applicant} onChange={(e) => update('category_of_applicant', e.target.value)} required>
+          {PAN_CATEGORY_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <p className="helper-text">
+          Note: only "Individual" applications auto-fill Form 93 correctly right now.
+          Other categories use a different official form — support for those is coming soon.
+        </p>
 
         <div className="section-title">Personal Information</div>
         <label>First Name</label>
