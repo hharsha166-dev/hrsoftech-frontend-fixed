@@ -61,10 +61,11 @@ chars.forEach((char, index) => {
 });
 
 count += 1;
+}
 
-  const outputBytes = await pdfDoc.save();
-  fs.writeFileSync(outputPdfPath, outputBytes);
-  return count;
+const outputBytes = await pdfDoc.save();
+fs.writeFileSync(outputPdfPath, outputBytes);
+return count;
 }
 
 module.exports = { fillPdfForm };
