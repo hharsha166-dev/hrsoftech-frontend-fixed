@@ -48,26 +48,21 @@ async function fillPdfForm(inputPdfPath, fieldsData, outputPdfPath) {
 
     const chars = text.split("");
 
-// box width (ಅಗತ್ಯವಿದ್ದರೆ ನಂತರ adjust ಮಾಡಬಹುದು)
 const boxWidth = field.boxWidth || 10.5;
 
 chars.forEach((char, index) => {
-  page.drawText(char, {
-    const charWidth = font.widthOfTextAtSize(char, fontSize);
+  const charWidth = font.widthOfTextAtSize(char, fontSize);
 
-page.drawText(char, {
-  x: left + (index * boxWidth) + ((boxWidth - charWidth) / 2),
-  y: baselineY,
-  size: fontSize,
-  font,
-  color: rgb(0, 0, 0),
-});
+  page.drawText(char, {
+    x: left + (index * boxWidth) + ((boxWidth - charWidth) / 2),
     y: baselineY,
     size: fontSize,
     font,
     color: rgb(0, 0, 0),
   });
 });
+
+count += 1;
     count += 1;
   }
 
