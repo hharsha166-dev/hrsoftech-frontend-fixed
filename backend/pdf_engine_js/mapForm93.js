@@ -34,7 +34,7 @@ function tick(page, cx, top, bottom, halfW = 6) {
   return {
     page_number: page,
     entry_bounding_box: [cx - halfW, top - 0.3, cx + halfW, bottom + 0.3],
-    entry_text: { text: '✓', font_size: Math.min(6, bottom - top - 0.6) },
+    entry_text: { text: 'x', font_size: Math.min(6, bottom - top - 0.6) },
   };
 }
 
