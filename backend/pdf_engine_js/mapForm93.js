@@ -59,7 +59,7 @@ function buildFields(app) {
 
   // ---------------- PAGE 1 ----------------
   const [first, middle, last] = splitName(app.full_name);
-  add(textField(1, 87.2, 198.6, 205.6, first, 560, 8, 11.8));
+  add(textField(1, 87.2, 198.6, 205.6, first, 560, 8, 11.8, -1));
   add(textField(1, 93.5, 212.0, 219.0, middle, 560, 8, 11.8));
   add(textField(1, 86.8, 225.7, 232.7, last, 560, 8, 11.8));
 
