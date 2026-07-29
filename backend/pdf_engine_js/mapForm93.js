@@ -17,16 +17,28 @@ function splitName(fullName) {
   return [first, middle, last];
 }
 
-function textField(page, left, top, bottom, text, right = 560, fontSize = 8, boxWidth = 10.5) {
+function textField(
+  page,
+  left,
+  top,
+  bottom,
+  text,
+  right = 560,
+  fontSize = 8,
+  boxWidth = 10.5,
+  xOffset = 0
+) {
   if (!text) return null;
+
   return {
     page_number: page,
     entry_bounding_box: [left + 4, top - 0.5, right, bottom + 0.5],
     entry_text: {
-  text: String(text),
-  font_size: fontSize,
-},
-boxWidth,
+      text: String(text),
+      font_size: fontSize,
+    },
+    boxWidth,
+    xOffset,
   };
 }
 
