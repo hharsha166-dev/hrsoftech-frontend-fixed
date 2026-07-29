@@ -47,14 +47,14 @@ async function fillPdfForm(inputPdfPath, fieldsData, outputPdfPath) {
     const baselineY = boxBottomY + Math.max((boxHeight - fontSize) / 2, 0.5);
 
     const chars = text.split("");
-
 const boxWidth = field.boxWidth || 10.5;
-
 const xOffset = field.xOffset || 0;
 
 chars.forEach((char, index) => {
+  const charWidth = font.widthOfTextAtSize(char, fontSize);
+
   page.drawText(char, {
-    x: left + xOffset + (index * boxWidth),
+    x: left + xOffset + (index * boxWidth) + ((boxWidth - charWidth) / 2),
     y: baselineY,
     size: fontSize,
     font,
