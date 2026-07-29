@@ -31,15 +31,15 @@ function textField(
   if (!text) return null;
 
   return {
-    page_number: page,
-    entry_bounding_box: [left + 4, top - 0.5, right, bottom + 0.5],
-    entry_text: {
-      text: String(text),
-      font_size: fontSize,
-    },
-    boxWidth,
-    xOffset,
-  };
+  page_number: page,
+  entry_bounding_box: [left, top, right, bottom],
+  entry_text: {
+    text: String(text),
+    font_size: fontSize,
+  },
+  boxWidth,
+  xOffset,
+};
 }
 
 function tick(page, cx, top, bottom, halfW = 6) {
