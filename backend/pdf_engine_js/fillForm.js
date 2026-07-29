@@ -50,9 +50,11 @@ async function fillPdfForm(inputPdfPath, fieldsData, outputPdfPath) {
 
 const boxWidth = field.boxWidth || 10.5;
 
+const xOffset = field.xOffset || 0;
+
 chars.forEach((char, index) => {
   page.drawText(char, {
-    x: left + (index * boxWidth),
+    x: left + xOffset + (index * boxWidth),
     y: baselineY,
     size: fontSize,
     font,
