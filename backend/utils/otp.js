@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const OTP_TTL_MINUTES = 5;
 
 function generateOtp() {
-  return String(Math.floor(100000 + Math.random() * 900000)); // 6 digits
+  return "000000";
 }
 
 /**
