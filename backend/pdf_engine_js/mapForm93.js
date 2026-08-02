@@ -58,7 +58,9 @@ function buildFields(app) {
   const off = app.office_address || {};
 
   // ---------------- PAGE 1 ----------------
-  add(textField(1, 89.2, 198.6, 205.6, first, 560, 8, 11.8, 0));
+const [first, middle, last] = splitName(app.full_name);
+
+add(textField(1, 89.2, 198.6, 205.6, first, 560, 8, 11.8, 0));
 add(textField(1, 95.5, 212.0, 219.0, middle, 560, 8, 11.8, 0));
 add(textField(1, 88.8, 225.7, 232.7, last, 560, 8, 11.8, 0));
 
