@@ -50,12 +50,7 @@ export default function App() {
           <Route path="wallet" element={<Wallet />} />
           <Route path="applications" element={<ApplicationList />} />
 <Route path="applications/new-pan" element={<NewPanApplication />} />
-
-<Route
-  path="applications/edit/:id"
-  element={<NewPanApplication />}
- />
-
+<Route path="applications/edit/:id" element={<NewPanApplication />} />
 <Route path="applications/correction" element={<CorrectionApplication />} />
         </Route>
 
