@@ -282,11 +282,17 @@ export default function NewPanApplication() {
         <input placeholder="Middle Name" value={form.mother_middle} onChange={(e) => update('mother_middle', e.target.value)} />
         <input placeholder="Last Name/Surname" value={form.mother_last} onChange={(e) => update('mother_last', e.target.value)} />
 
-        <div className="section-title">Assessing Officer (AO) Code — optional</div>
-        <input placeholder="Area Code" value={form.ao_area_code} onChange={(e) => update('ao_area_code', e.target.value)} />
-        <input placeholder="AO Type" value={form.ao_type} onChange={(e) => update('ao_type', e.target.value)} />
-        <input placeholder="Range Code" value={form.ao_range_code} onChange={(e) => update('ao_range_code', e.target.value)} />
-        <input placeholder="AO No." value={form.ao_no} onChange={(e) => update('ao_no', e.target.value)} />
+        <div className="section-title">Assessing Officer (AO) Code *</div>
+        <p className="helper-text">
+          Find your AO Code at{' '}
+          <a href="https://www.tin-nsdl.com/services/pan/pan-aocode.html" target="_blank" rel="noreferrer">
+            tin-nsdl.com/services/pan/pan-aocode.html
+          </a>
+        </p>
+        <input placeholder="Area Code *" value={form.ao_area_code} onChange={(e) => update('ao_area_code', e.target.value)} required />
+        <input placeholder="AO Type *" value={form.ao_type} onChange={(e) => update('ao_type', e.target.value)} required />
+        <input placeholder="Range Code *" value={form.ao_range_code} onChange={(e) => update('ao_range_code', e.target.value)} required />
+        <input placeholder="AO No. *" value={form.ao_no} onChange={(e) => update('ao_no', e.target.value)} required />
 
         <div className="section-title">Document Proof</div>
         <label>Proof Of Identity</label>
