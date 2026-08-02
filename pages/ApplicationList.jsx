@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 export default function ApplicationList() {
   const [applications, setApplications] = useState([]);
+
+const navigate = useNavigate();
 
   useEffect(() => {
     api.get('/applications').then((res) => setApplications(res.data.applications));
@@ -17,6 +20,7 @@ export default function ApplicationList() {
             <tr>
               <th>Applicant</th><th>Type</th><th>Status</th><th>Fee Charged</th>
               <th>NSDL Ack No.</th><th>Date</th>
+<th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -28,6 +32,16 @@ export default function ApplicationList() {
                 <td>{a.fee_charged ? `₹${(a.fee_charged / 100).toFixed(2)}` : '—'}</td>
                 <td>{a.nsdl_ack_number || '—'}</td>
                 <td>{new Date(a.created_at).toLocaleDateString()}</td>
+<td>
+  {a.status === 'draft' && (
+    <button
+      className="btn btn-primary"
+      onClick={() => navigate(`/app/applications/edit/${a.id}`)}
+    >
+      Edit
+    </button>
+  )}
+</td>
               </tr>
             ))}
             {applications.length === 0 && (
