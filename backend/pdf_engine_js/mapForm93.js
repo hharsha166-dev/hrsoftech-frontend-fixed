@@ -138,9 +138,20 @@ if (comm === "office") {
   add(charGrid(1, 'off_post', 478.4, 485.4, 180.9, 15.34, 25, off.post_office));
   add(charGrid(1, 'off_city', 491.8, 498.8, 180.73, 15.34, 25, off.city));
   add(charGrid(1, 'off_district', 505.2, 512.2, 180.61, 15.36, 25, off.district));
-  add(plainBox(1, 120.0, 518.6, 525.6, off.state, 225));
-  add(plainBox(1, 276.7, 518.6, 525.6, off.country, 396));
-  add(charGrid(1, 'off_pin', 518.6, 525.6, 441.87, 15.34, 8, off.pincode, 8));
+  add(plainBox(1, 135.0, 518.6, 525.6, off.state, 240));
+add(plainBox(1, 292.0, 518.6, 525.6, off.country, 410));
+
+add(charGrid(
+  1,
+  "off_pin",
+  518.6,
+  525.6,
+  458.0,
+  15.34,
+  8,
+  off.pincode,
+  8
+));
 }
   const resStatus = (app.residential_status || '').toLowerCase();
   const resStatusX = { resident: 218.3, non_resident: 280.4, rnor: 357.6 };
