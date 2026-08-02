@@ -40,6 +40,8 @@ function buildFields(app) {
   const res = app.residence_address || {};
   const off = app.office_address || {};
 
+const comm = (app.communication_address || "residence").toLowerCase();
+
   const [first, middle, last] = splitName(app.full_name);
   add(charGrid(1, 'first_name', 198.6, 205.6, 180.61, 15.35, 25, first));
   add(charGrid(1, 'middle_name', 212.0, 219.0, 180.73, 15.35, 25, middle));
@@ -108,6 +110,8 @@ add(charGrid(
 
   add(charGrid(1, 'aadhaar', 323.9, 330.9, 180.59, 14.9, 12, app.aadhaar_number));
 
+if (comm === "residence") {
+
   add(charGrid(1, 'res_l1', 354.0, 361.0, 180.59, 15.34, 25, res.line1));
   add(charGrid(1, 'res_l2', 367.4, 374.4, 180.74, 15.34, 25, res.line2));
   add(charGrid(1, 'res_post', 380.8, 387.8, 180.81, 15.34, 25, res.post_office));
@@ -126,7 +130,9 @@ add(charGrid(
   res.pincode,
   8
 ));
+}
 
+if (comm === "office") {
   add(charGrid(1, 'off_l1', 451.6, 458.6, 180.78, 15.35, 25, off.line1));
   add(charGrid(1, 'off_l2', 465.0, 472.0, 180.9, 15.34, 25, off.line2));
   add(charGrid(1, 'off_post', 478.4, 485.4, 180.9, 15.34, 25, off.post_office));
@@ -135,7 +141,7 @@ add(charGrid(
   add(plainBox(1, 120.0, 518.6, 525.6, off.state, 225));
   add(plainBox(1, 276.7, 518.6, 525.6, off.country, 396));
   add(charGrid(1, 'off_pin', 518.6, 525.6, 441.87, 15.34, 8, off.pincode, 8));
-
+}
   const resStatus = (app.residential_status || '').toLowerCase();
   const resStatusX = { resident: 218.3, non_resident: 280.4, rnor: 357.6 };
   if (resStatusX[resStatus] !== undefined) add(tick(1, resStatusX[resStatus], 535.8, 541.8));
