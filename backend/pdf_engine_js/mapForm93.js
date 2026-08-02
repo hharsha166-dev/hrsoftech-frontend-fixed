@@ -40,6 +40,8 @@ function buildFields(app) {
   const res = app.residence_address || {};
   const off = app.office_address || {};
 
+const comm = (app.communication_address || '').toLowerCase();
+
   const [first, middle, last] = splitName(app.full_name);
   add(charGrid(1, 'first_name', 198.6, 205.6, 180.61, 15.35, 25, first));
   add(charGrid(1, 'middle_name', 212.0, 219.0, 180.73, 15.35, 25, middle));
@@ -183,7 +185,8 @@ if (comm === "office") {
   add(charGrid(2, 'ao_range', 123.2, 130.2, 238.0, 15.35, 3, app.ao_range_code));
   add(charGrid(2, 'ao_no', 123.2, 130.2, 397.42, 15.34, 2, app.ao_no));
 
-  const comm = (app.communication_address || '').toLowerCase();
+  const res = app.residence_address || {};
+const off = app.office_address || {};
   const commX = { residence: 221.25, ra: 307.3, office: 453.2 };
   if (commX[comm] !== undefined) add(tick(2, commX[comm], 419.4, 425.4));
 
