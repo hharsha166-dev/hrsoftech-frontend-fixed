@@ -45,41 +45,19 @@ function buildFields(app) {
   add(charGrid(1, 'middle_name', 212.0, 219.0, 180.73, 15.35, 25, middle));
   add(charGrid(1, 'last_name', 225.7, 232.7, 180.73, 15.35, 25, last));
 
-const [aadhaarFirst, aadhaarMiddle, aadhaarLast] =
- splitName(app.name_as_per_aadhaar);
+const aadhaarFull = app.name_as_per_aadhaar || "";
 
 add(charGrid(
   1,
-  'aadhaar_name_first',
+  "aadhaar_name",
   255.4,
   262.4,
   180.61,
   15.35,
-  25,
-  aadhaarFirst
+  75,
+  aadhaarFull
 ));
 
-add(charGrid(
-  1,
-  'aadhaar_name_middle',
-  268.8,
-  275.8,
-  180.73,
-  15.35,
-  25,
-  aadhaarMiddle
-));
-
-add(charGrid(
-  1,
-  'aadhaar_name_last',
-  282.2,
-  289.2,
-  180.73,
-  15.35,
-  25,
-  aadhaarLast
-));
   const gender = (app.gender || '').toLowerCase();
   const genderTickX = { male: 188.5, female: 234.7, transgender: 295.8 };
   if (genderTickX[gender] !== undefined) add(tick(1, genderTickX[gender], 297.0, 304.0));
