@@ -60,9 +60,44 @@ function buildFields(app) {
   // ---------------- PAGE 1 ----------------
   const [first, middle, last] = splitName(app.full_name);
 
-add(textField(1, 96.2, 198.6, 205.6, first, 560, 8, 11.8, -1));
-add(textField(1, 102.5, 212.0, 219.0, middle, 560, 8, 11.8, -1));
-add(textField(1, 95.8, 225.7, 232.7, last, 560, 8, 11.8, -1));
+// First Name
+add(textField(
+  1,
+  92.8,      // left
+  198.6,
+  205.6,
+  first,
+  560,
+  8,
+  10.9,      // boxWidth
+  2.0        // xOffset
+));
+
+// Middle Name
+add(textField(
+  1,
+  99.0,
+  212.0,
+  219.0,
+  middle,
+  560,
+  8,
+  10.9,
+  2.0
+));
+
+// Last Name
+add(textField(
+  1,
+  92.4,
+  225.7,
+  232.7,
+  last,
+  560,
+  8,
+  10.9,
+  2.0
+));
 
   const gender = (app.gender || '').toLowerCase();
   const genderTickX = { male: 188.5, female: 234.7, transgender: 295.8 };
