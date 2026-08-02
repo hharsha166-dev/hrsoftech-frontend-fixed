@@ -185,8 +185,6 @@ if (comm === "office") {
   add(charGrid(2, 'ao_range', 123.2, 130.2, 238.0, 15.35, 3, app.ao_range_code));
   add(charGrid(2, 'ao_no', 123.2, 130.2, 397.42, 15.34, 2, app.ao_no));
 
-  const res = app.residence_address || {};
-const off = app.office_address || {};
   const commX = { residence: 221.25, ra: 307.3, office: 453.2 };
   if (commX[comm] !== undefined) add(tick(2, commX[comm], 419.4, 425.4));
 
