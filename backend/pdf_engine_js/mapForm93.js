@@ -1,4 +1,4 @@
-const PDF_W = 595.276;
+oyconst PDF_W = 595.276;
 const PDF_H = 841.89001;
 
 function splitName(fullName) {
@@ -164,7 +164,7 @@ add(charGrid(
   add(charGrid(1, 'mobile', 605.9, 612.9, 381.3, 14.74, 10, app.mobile));
   add({
   page_number: 1,
-  entry_bounding_box: [280, 620.0, 535, 627.0]
+  entry_bounding_box: [280, 620.0, 535, 627.0],
   entry_text: {
     text: String(app.email || ''),
     font_size: 8
