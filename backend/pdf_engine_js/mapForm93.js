@@ -164,7 +164,7 @@ add(charGrid(
   add(charGrid(1, 'mobile', 605.9, 612.9, 381.3, 14.74, 10, app.mobile));
   add({
   page_number: 1,
-  entry_bounding_box: [280, 620.0, 535, 627.0],
+  entry_bounding_box: [260, 620.0, 515, 627.0],
   entry_text: {
     text: String(app.email || ''),
     font_size: 8
