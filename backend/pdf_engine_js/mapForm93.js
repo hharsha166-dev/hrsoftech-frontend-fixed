@@ -63,14 +63,48 @@ add(charGrid(
   if (genderTickX[gender] !== undefined) add(tick(1, genderTickX[gender], 297.0, 304.0));
 
   if (app.dob) {
-    const parts = app.dob.split('-');
-    if (parts.length === 3) {
-      const [y, m, dd] = parts;
-      add({ page_number: 1, entry_bounding_box: [193, 309.6, 224, 318.0], entry_text: { text: dd, font_size: 7 } });
-      add({ page_number: 1, entry_bounding_box: [240, 309.6, 271, 318.0], entry_text: { text: m, font_size: 7 } });
-      add({ page_number: 1, entry_bounding_box: [287, 309.6, 335, 318.0], entry_text: { text: y, font_size: 7 } });
-    }
+  const parts = app.dob.split('-');
+
+  if (parts.length === 3) {
+    const [yyyy, mm, dd] = parts;
+
+    add(charGrid(
+      1,
+      "dob_dd",
+      309.6,
+      318.0,
+      193.0,
+      15.35,
+      2,
+      dd,
+      7
+    ));
+
+    add(charGrid(
+      1,
+      "dob_mm",
+      309.6,
+      318.0,
+      240.0,
+      15.35,
+      2,
+      mm,
+      7
+    ));
+
+    add(charGrid(
+      1,
+      "dob_yyyy",
+      309.6,
+      318.0,
+      287.0,
+      15.35,
+      4,
+      yyyy,
+      7
+    ));
   }
+}
 
   add(charGrid(1, 'aadhaar', 323.9, 330.9, 180.59, 14.9, 12, app.aadhaar_number));
 
