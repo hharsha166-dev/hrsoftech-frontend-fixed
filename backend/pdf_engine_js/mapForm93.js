@@ -1,4 +1,4 @@
-oyconst PDF_W = 595.276;
+const PDF_W = 595.276;
 const PDF_H = 841.89001;
 
 function splitName(fullName) {
