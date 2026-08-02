@@ -133,6 +133,151 @@ router.post('/', requireAuth, requireRole('retailer'), async (req, res) => {
   }
 });
 
+// --- Update draft application ---
+router.put('/:id', requireAuth, requireRole('retailer'), async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT * FROM applications WHERE id = $1 AND retailer_id = $2',
+      [req.params.id, req.user.id]
+    );
+
+    if (!result.rows.length) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    const app = result.rows[0];
+
+    if (app.status !== 'draft') {
+      return res.status(400).json({
+        error: 'Only draft applications can be edited'
+      });
+    }
+
+    const {
+      full_name,
+      name_as_per_aadhaar,
+      father_name,
+      mother_name,
+      parent_on_card,
+      dob,
+      gender,
+      aadhaar_number,
+      address_line1,
+      address_line2,
+      post_office,
+      city,
+      district,
+      state,
+      pincode,
+      office_address_line1,
+      office_address_line2,
+      office_post_office,
+      office_city,
+      office_district,
+      office_state,
+      office_pincode,
+      communication_address,
+      residential_status,
+      mobile,
+      email,
+      source_of_income,
+      ao_area_code,
+      ao_type,
+      ao_range_code,
+      ao_no,
+      proof_of_identity,
+      proof_of_address,
+      proof_of_dob,
+      verifier_name
+    } = req.body;
+
+    await db.query(
+      `UPDATE applications SET
+      full_name=$1,
+      name_as_per_aadhaar=$2,
+      father_name=$3,
+      mother_name=$4,
+      parent_on_card=$5,
+      dob=$6,
+      gender=$7,
+      aadhaar_number=$8,
+      address_line1=$9,
+      address_line2=$10,
+      post_office=$11,
+      city=$12,
+      district=$13,
+      state=$14,
+      pincode=$15,
+      office_address_line1=$16,
+      office_address_line2=$17,
+      office_post_office=$18,
+      office_city=$19,
+      office_district=$20,
+      office_state=$21,
+      office_pincode=$22,
+      communication_address=$23,
+      residential_status=$24,
+      mobile=$25,
+      email=$26,
+      source_of_income=$27,
+      ao_area_code=$28,
+      ao_type=$29,
+      ao_range_code=$30,
+      ao_no=$31,
+      proof_of_identity=$32,
+      proof_of_address=$33,
+      proof_of_dob=$34,
+      verifier_name=$35,
+      updated_at=NOW()
+      WHERE id=$36`,
+      [
+        full_name,
+        name_as_per_aadhaar,
+        father_name,
+        mother_name,
+        parent_on_card,
+        dob,
+        gender,
+        aadhaar_number,
+        address_line1,
+        address_line2,
+        post_office,
+        city,
+        district,
+        state,
+        pincode,
+        office_address_line1,
+        office_address_line2,
+        office_post_office,
+        office_city,
+        office_district,
+        office_state,
+        office_pincode,
+        communication_address,
+        residential_status,
+        mobile,
+        email,
+        JSON.stringify(source_of_income || []),
+        ao_area_code,
+        ao_type,
+        ao_range_code,
+        ao_no,
+        proof_of_identity,
+        proof_of_address,
+        proof_of_dob,
+        verifier_name,
+        req.params.id
+      ]
+    );
+
+    res.json({ message: 'Application updated successfully' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not update application' });
+  }
+});
+
 // --- Upload documents for an application ---
 router.post('/:id/documents', requireAuth, requireRole('retailer'), uploadFields, async (req, res) => {
   try {
