@@ -40,8 +40,6 @@ function buildFields(app) {
   const res = app.residence_address || {};
   const off = app.office_address || {};
 
-const comm = (app.communication_address || "residence").toLowerCase();
-
   const [first, middle, last] = splitName(app.full_name);
   add(charGrid(1, 'first_name', 198.6, 205.6, 180.61, 15.35, 25, first));
   add(charGrid(1, 'middle_name', 212.0, 219.0, 180.73, 15.35, 25, middle));
