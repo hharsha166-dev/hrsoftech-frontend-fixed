@@ -161,8 +161,8 @@ add(charGrid(
   add(charGrid(1, 'tin', 575.8, 582.8, 270.02, 14.74, 19, app.tin));
 
   add(charGrid(1, 'mobile_cc', 605.9, 612.9, 240.31, 14.74, 3, app.mobile_country_code));
-  add(charGrid(1, 'mobile', 605.9, 612.9, 396.0, 14.74, 10, app.mobile));
-  add(plainBox(1, 92.4, 619.3, 626.3, app.email));
+  add(charGrid(1, 'mobile', 605.9, 612.9, 381.3, 14.74, 10, app.mobile));
+  add(plainBox(1, 92.4, 619.3, 626.3, app.email, 380));
   add(charGrid(1, 'landline_std', 632.7, 639.7, 214.8, 14.74, 6, app.landline_std_code));
   add(charGrid(1, 'landline_no', 632.7, 639.7, 396.0, 14.74, 8, app.landline_number));
 
