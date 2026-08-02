@@ -45,7 +45,7 @@ const navigate = useNavigate();
               </tr>
             ))}
             {applications.length === 0 && (
-              <tr><td colSpan={6} style={{ color: 'var(--text-muted)' }}>No applications yet.</td></tr>
+              <tr><td colSpan={7}>No applications yet.</td></tr>
             )}
           </tbody>
         </table>
