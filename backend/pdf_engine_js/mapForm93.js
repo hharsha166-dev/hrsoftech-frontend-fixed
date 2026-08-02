@@ -113,9 +113,19 @@ add(charGrid(
   add(charGrid(1, 'res_post', 380.8, 387.8, 180.81, 15.34, 25, res.post_office));
   add(charGrid(1, 'res_city', 394.2, 401.2, 180.95, 15.35, 25, res.city));
   add(charGrid(1, 'res_district', 407.7, 414.7, 181.02, 15.35, 25, res.district));
-  add(plainBox(1, 120.0, 421.1, 428.1, res.state, 225));
-  add(plainBox(1, 276.7, 421.1, 428.1, res.country, 396));
-  add(charGrid(1, 'res_pin', 421.1, 428.1, 441.87, 15.34, 8, res.pincode, 8));
+  add(plainBox(1, 115.0, 421.1, 428.1, res.state, 220));
+  add(plainBox(1, 270.0, 421.1, 428.1, res.country, 390));
+  add(charGrid(
+  1,
+  "res_pin",
+  421.1,
+  428.1,
+  435.0,
+  15.34,
+  8,
+  res.pincode,
+  8
+));
 
   add(charGrid(1, 'off_l1', 451.6, 458.6, 180.78, 15.35, 25, off.line1));
   add(charGrid(1, 'off_l2', 465.0, 472.0, 180.9, 15.34, 25, off.line2));
