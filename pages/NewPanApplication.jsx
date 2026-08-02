@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
@@ -58,6 +58,9 @@ const emptyForm = {
 
 export default function NewPanApplication() {
   const navigate = useNavigate();
+const { id } = useParams();
+const isEdit = Boolean(id);
+
   const [form, setForm] = useState(emptyForm);
   const [step, setStep] = useState(1);
   const [applicationId, setApplicationId] = useState(null);
@@ -66,6 +69,26 @@ export default function NewPanApplication() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [pdfError, setPdfError] = useState('');
   const [pdfLoading, setPdfLoading] = useState(false);
+
+useEffect(() => {
+  if (!isEdit) return;
+
+  api.get(`/applications/${id}`)
+    .then((res) => {
+      const a = res.data.application;
+
+      setForm((f) => ({
+        ...f,
+        ...a,
+        source_of_income: a.source_of_income
+          ? JSON.parse(a.source_of_income)
+          : [],
+      }));
+
+      setApplicationId(a.id);
+    })
+    .catch(console.error);
+}, [id, isEdit]);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
