@@ -122,47 +122,53 @@ useEffect(() => {
       const father_name = [form.father_first, form.father_middle, form.father_last].filter(Boolean).join(' ');
       const mother_name = [form.mother_first, form.mother_middle, form.mother_last].filter(Boolean).join(' ');
 
-      const { data } = await api.post('/applications', {
-        application_type: 'new_pan',
-        category_of_applicant: form.category_of_applicant,
-        full_name,
-        name_as_per_aadhaar: form.name_as_per_aadhaar,
-        gender: form.gender.toLowerCase(),
-        dob: form.dob,
-        aadhaar_number: form.aadhaar_number,
-        communication_address: form.communication_address,
-        address_line1: form.address_line1,
-        address_line2: form.address_line2,
-        post_office: form.post_office,
-        city: form.city,
-        district: form.district,
-        state: form.state,
-        pincode: form.pincode,
-        office_address_line1: form.office_address_line1,
-        office_address_line2: form.office_address_line2,
-        office_post_office: form.office_post_office,
-        office_city: form.office_city,
-        office_district: form.office_district,
-        office_state: form.office_state,
-        office_pincode: form.office_pincode,
-        residential_status: form.residential_status,
-        mobile: form.mobile,
-        email: form.email,
-        source_of_income: form.source_of_income,
-        parent_on_card: form.parent_on_card,
-        father_name,
-        mother_name,
-        ao_area_code: form.ao_area_code,
-        ao_type: form.ao_type,
-        ao_range_code: form.ao_range_code,
-        ao_no: form.ao_no,
-        proof_of_identity: form.proof_of_identity,
-        proof_of_address: form.proof_of_address,
-        proof_of_dob: form.proof_of_dob,
-        verifier_name: form.verifier_name,
-      });
-      setApplicationId(data.application_id);
-      setStep(2);
+const payload = {
+  application_type: 'new_pan',
+  category_of_applicant: form.category_of_applicant,
+  full_name,
+  name_as_per_aadhaar: form.name_as_per_aadhaar,
+  gender: form.gender.toLowerCase(),
+  dob: form.dob,
+  aadhaar_number: form.aadhaar_number,
+  communication_address: form.communication_address,
+  address_line1: form.address_line1,
+  address_line2: form.address_line2,
+  post_office: form.post_office,
+  city: form.city,
+  district: form.district,
+  state: form.state,
+  pincode: form.pincode,
+  office_address_line1: form.office_address_line1,
+  office_address_line2: form.office_address_line2,
+  office_post_office: form.office_post_office,
+  office_city: form.office_city,
+  office_district: form.office_district,
+  office_state: form.office_state,
+  office_pincode: form.office_pincode,
+  residential_status: form.residential_status,
+  mobile: form.mobile,
+  email: form.email,
+  source_of_income: form.source_of_income,
+  parent_on_card: form.parent_on_card,
+  father_name,
+  mother_name,
+  ao_area_code: form.ao_area_code,
+  ao_type: form.ao_type,
+  ao_range_code: form.ao_range_code,
+  ao_no: form.ao_no,
+  proof_of_identity: form.proof_of_identity,
+  proof_of_address: form.proof_of_address,
+  proof_of_dob: form.proof_of_dob,
+  verifier_name: form.verifier_name,
+};
+      if (isEdit) {
+  await api.put(`/applications/${id}`, payload);
+  setStep(2);
+} else {
+  const { data } = await api.post('/applications', payload);
+  setApplicationId(data.application_id);
+  setStep(2);
+}
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save application details');
     } finally {
