@@ -16,6 +16,7 @@ import AdminLayout from './pages/AdminLayout.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import AdminRetailers from './pages/AdminRetailers.jsx';
 import AdminApplications from './pages/AdminApplications.jsx';
+import AdminApplicationView from './pages/AdminApplicationView.jsx';
 
 function RequireAuth({ role, children }) {
   const token = localStorage.getItem('token');
@@ -67,6 +68,7 @@ export default function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="retailers" element={<AdminRetailers />} />
           <Route path="applications" element={<AdminApplications />} />
+<Route path="applications/:id" element={<AdminApplicationView />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/login" replace />} />
