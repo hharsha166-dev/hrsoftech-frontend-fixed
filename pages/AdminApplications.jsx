@@ -77,7 +77,6 @@ const navigate = useNavigate();
 </td>
 
 <td>
-                <td>
                   <button className="btn btn-secondary" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => { setEditing(a.id); setNewStatus(a.status); }}>
                     Update
                   </button>
