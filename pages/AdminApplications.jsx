@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 const STATUSES = ['submitted', 'under_process', 'approved', 'rejected'];
 
 export default function AdminApplications() {
+const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [statusFilter, setStatusFilter] = useState('');
   const [editing, setEditing] = useState(null);
@@ -49,8 +51,10 @@ export default function AdminApplications() {
           <thead>
             <tr>
               <th>Applicant</th><th>Retailer</th><th>Type</th><th>Status</th>
-              <th>NSDL Ack</th><th>Date</th><th>Actions</th>
-            </tr>
+              <th>NSDL Ack</th>
+<th>Date</th>
+<th>View</th>
+<th>Actions</th>
           </thead>
           <tbody>
             {applications.map((a) => (
@@ -60,7 +64,19 @@ export default function AdminApplications() {
                 <td>{a.application_type === 'new_pan' ? 'New PAN' : 'Correction'}</td>
                 <td><span className={`badge badge-${a.status}`}>{a.status.replace('_', ' ')}</span></td>
                 <td>{a.nsdl_ack_number || '—'}</td>
-                <td>{new Date(a.created_at).toLocaleDateString()}</td>
+<td>{new Date(a.created_at).toLocaleDateString()}</td>
+
+<td>
+  <button
+    className="btn btn-secondary"
+    style={{ padding: '4px 10px', fontSize: 12 }}
+    onClick={() => navigate(`/admin/applications/${a.id}`)}
+  >
+    View
+  </button>
+</td>
+
+<td>
                 <td>
                   <button className="btn btn-secondary" style={{ padding: '4px 10px', fontSize: 12 }} onClick={() => { setEditing(a.id); setNewStatus(a.status); }}>
                     Update
