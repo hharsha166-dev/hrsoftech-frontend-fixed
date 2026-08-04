@@ -59,16 +59,16 @@ export default function AdminApplicationView() {
 
           <tr>
             <td><b>NSDL Ack Number</b></td>
-<td>{application.nsdl_ack_number || '-'}</td>
-</tr>
+            <td>{application.nsdl_ack_number || '-'}</td>
+          </tr>
 
-<tr>
-<td><b>Remarks</b></td>
-<td>{application.remarks || '-'}</td>
-</tr>
+          <tr>
+            <td><b>Remarks</b></td>
+            <td>{application.remarks || '-'}</td>
+          </tr>
 
-</tbody>
-</table>
-</div>
-);
+        </tbody>
+      </table>
+    </div>
+  );
 }
