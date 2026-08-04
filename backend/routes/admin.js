@@ -126,6 +126,36 @@ router.get('/applications', async (req, res) => {
   }
 });
 
+// --- All applications across retailers, with filters ---
+router.get('/applications', async (req, res) => {
+   ...
+});
+
+// 👇👇 ಇಲ್ಲೇ paste ಮಾಡಿ
+
+// --- Get single application details ---
+router.get('/applications/:id', async (req, res) => {
+  try {
+    const result = await db.query(
+      `SELECT a.*, r.business_name, r.owner_name
+       FROM applications a
+       JOIN retailers r ON a.retailer_id = r.id
+       WHERE a.id = $1`,
+      [req.params.id]
+    );
+
+    if (!result.rows.length) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    res.json({ application: result.rows[0] });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not load application' });
+  }
+});
+
 // --- Update application status ---
 router.patch('/applications/:id/status', async (req, res) => {
   const { status, nsdl_ack_number, remarks } = req.body;
