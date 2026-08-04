@@ -124,11 +124,7 @@ router.get('/applications', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Could not load applications' });
   }
-});
 
-// --- All applications across retailers, with filters ---
-router.get('/applications', async (req, res) => {
-   ...
 });
 
 // 👇👇 ಇಲ್ಲೇ paste ಮಾಡಿ
