@@ -137,6 +137,13 @@ useEffect(() => {
 if (!/^\d{12}$/.test(form.aadhaar_number)) {
   return setError("Aadhaar Number must be exactly 12 digits.");
 }
+
+if (!/^\d{10}$/.test(form.mobile)) {
+  return setError("Mobile Number must be exactly 10 digits.");
+}
+if (!/^\d{6}$/.test(form.pincode)) {
+  return setError("PIN Code must be exactly 6 digits.");
+}
     setLoading(true);
     try {
       const full_name = [form.first_name, form.middle_name, form.last_name].filter(Boolean).join(' ');
@@ -270,8 +277,7 @@ const payload = {
   }}
   required
 />
-
-        <label>Address For Communication *</label>
+      <label>Address For Communication *</label>
         <select value={form.communication_address} onChange={(e) => update('communication_address', e.target.value)}>
           <option value="residence">Residence</option>
           <option value="office">Office</option>
@@ -291,11 +297,19 @@ const payload = {
         <select value={form.state} onChange={(e) => update('state', e.target.value)} required>
           <option value="">--Select--</option>
           {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
-        </select>
-        <label>Pincode *</label>
-        <input value={form.pincode} onChange={(e) => update('pincode', e.target.value)} required />
+        <input
+  type="text"
+  value={form.pincode}
+  maxLength={6}
+  inputMode="numeric"
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    update("pincode", value);
+  }}
+  required
+/>
 
-        <div className="section-title">Office Address (optional)</div>
+   <div className="section-title">Office Address (optional)</div>
         <input placeholder="Flat/Door/Building" value={form.office_address_line1} onChange={(e) => update('office_address_line1', e.target.value)} />
         <input placeholder="Road/Street" value={form.office_address_line2} onChange={(e) => update('office_address_line2', e.target.value)} />
         <input placeholder="Post Office" value={form.office_post_office} onChange={(e) => update('office_post_office', e.target.value)} />
@@ -310,7 +324,17 @@ const payload = {
         </select>
 
         <label>Mobile No. *</label>
-        <input value={form.mobile} onChange={(e) => update('mobile', e.target.value)} required />
+        <input
+  type="text"
+  value={form.mobile}
+  maxLength={10}
+  inputMode="numeric"
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+    update("mobile", value);
+  }}
+  required
+/>
         <label>Email ID *</label>
         <input type="email" value={form.email} onChange={(e) => update('email', e.target.value)} required />
 
