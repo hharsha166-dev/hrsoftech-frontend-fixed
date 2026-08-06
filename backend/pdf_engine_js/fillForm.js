@@ -2,6 +2,33 @@ const fs = require('fs');
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 
 /**
+ * Draws a checkmark (✓) using two line segments, centered in the given box.
+ * Standard PDF fonts can't reliably encode a Unicode checkmark glyph
+ * through pdf-lib's text API, so this draws it as vector lines instead —
+ * this matches how a real checkmark looks in filled official forms
+ * (previously an "X" was used here, which isn't what NSDL forms show).
+ */
+function drawCheckmark(page, pdfHeight, left, top, right, bottom) {
+  const boxBottomY = pdfHeight - bottom;
+  const boxTopY = pdfHeight - top;
+  const cx = (left + right) / 2;
+  const cy = (boxBottomY + boxTopY) / 2;
+  const s = Math.min(right - left, boxTopY - boxBottomY) * 0.32;
+  page.drawLine({
+    start: { x: cx - s * 0.9, y: cy },
+    end: { x: cx - s * 0.15, y: cy - s * 0.75 },
+    thickness: 1.1,
+    color: rgb(0, 0, 0),
+  });
+  page.drawLine({
+    start: { x: cx - s * 0.15, y: cy - s * 0.75 },
+    end: { x: cx + s, y: cy + s * 0.85 },
+    thickness: 1.1,
+    color: rgb(0, 0, 0),
+  });
+}
+
+/**
  * Fills a template PDF. Supports two field kinds:
  *  - "text" fields (single continuous box, e.g. State, Country, Email):
  *    entry_bounding_box + entry_text, drawn as one string (old behavior).
@@ -32,6 +59,13 @@ async function fillPdfForm(inputPdfPath, fieldsData, outputPdfPath) {
     if (!page) continue;
     const { height: pdfHeight } = page.getSize();
 
+    if (field.kind === 'tick') {
+      const [left, top, right, bottom] = field.entry_bounding_box;
+      drawCheckmark(page, pdfHeight, left, top, right, bottom);
+      count += 1;
+      continue;
+    }
+
     if (field.kind === 'char_grid') {
       const text = String(field.text || '');
       if (!text) continue;
@@ -39,7 +73,7 @@ async function fillPdfForm(inputPdfPath, fieldsData, outputPdfPath) {
       const chars = text.split('');
       for (let i = 0; i < chars.length && i < field.num_boxes; i++) {
         const ch = chars[i];
-        if (ch === ' ') continue; // leave a blank box for spaces between name parts
+        if (ch === ' ') continue;
         const boxCenterX = field.box_start_x + i * field.box_width + field.box_width / 2;
         drawInBox(page, pdfHeight, field.box_start_x, field.top, field.bottom, ch, fontSize, boxCenterX);
         count += 1;
