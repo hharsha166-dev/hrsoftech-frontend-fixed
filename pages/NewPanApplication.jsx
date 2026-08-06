@@ -21,6 +21,21 @@ const INDIAN_STATES = [
   'MIZORAM', 'NAGALAND', 'ODISHA', 'PONDICHERRY', 'PUNJAB', 'RAJASTHAN', 'SIKKIM', 'TAMIL NADU',
   'TELANGANA', 'TRIPURA', 'UTTAR PRADESH', 'UTTARAKHAND', 'WEST BENGAL',
 ];
+const DISTRICTS = {
+  KARNATAKA: [
+    "BENGALURU URBAN",
+    "BENGALURU RURAL",
+    "MYSURU",
+    "BELAGAVI",
+    "BALLARI",
+    "TUMAKURU",
+    "SHIVAMOGGA",
+    "DAVANAGERE",
+    "KALABURAGI",
+    "VIJAYAPURA"
+  ]
+};
+
 const SOURCE_OF_INCOME_OPTIONS = [
   { value: 'salary', label: 'Salary' },
   { value: 'business', label: 'Income from Business/Profession' },
@@ -62,6 +77,9 @@ const { id } = useParams();
 const isEdit = Boolean(id);
 
   const [form, setForm] = useState(emptyForm);
+
+const districtList = DISTRICTS[form.state] || [];
+
   const [step, setStep] = useState(1);
   const [applicationId, setApplicationId] = useState(null);
   const [error, setError] = useState('');
@@ -311,17 +329,48 @@ const payload = {
         <input placeholder="Middle Name" value={form.mother_middle} onChange={(e) => update('mother_middle', e.target.value)} />
         <input placeholder="Last Name/Surname" value={form.mother_last} onChange={(e) => update('mother_last', e.target.value)} />
 
-        <div className="section-title">Assessing Officer (AO) Code *</div>
-        <p className="helper-text">
-          Find your AO Code at{' '}
-          <a href="https://www.tin-nsdl.com/services/pan/pan-aocode.html" target="_blank" rel="noreferrer">
-            tin-nsdl.com/services/pan/pan-aocode.html
-          </a>
-        </p>
-        <input placeholder="Area Code *" value={form.ao_area_code} onChange={(e) => update('ao_area_code', e.target.value)} required />
-        <input placeholder="AO Type *" value={form.ao_type} onChange={(e) => update('ao_type', e.target.value)} required />
-        <input placeholder="Range Code *" value={form.ao_range_code} onChange={(e) => update('ao_range_code', e.target.value)} required />
-        <input placeholder="AO No. *" value={form.ao_no} onChange={(e) => update('ao_no', e.target.value)} required />
+ <div className="section-title">Assessing Officer (AO) Code *</div>
+
+<label>State *</label>
+<select
+  value={form.state}
+  onChange={(e) => update("state", e.target.value)}
+  required
+>
+  <option value="">-- Select State --</option>
+  {INDIAN_STATES.map((s) => (
+    <option key={s} value={s}>
+      {s}
+    </option>
+  ))}
+</select>
+
+<label>District *</label>
+<select
+  value={form.district}
+  onChange={(e) => update("district", e.target.value)}
+  required
+>
+  <option value="">-- Select District --</option>
+
+  {districtList.map((d) => (
+    <option key={d} value={d}>
+      {d}
+    </option>
+  ))}
+</select>
+
+<label>Area Code</label>
+<input value={form.ao_area_code} readOnly />
+
+<label>AO Type</label>
+<input value={form.ao_type} readOnly />
+
+<label>Range Code</label>
+<input value={form.ao_range_code} readOnly />
+
+<label>AO Number</label>
+<input value={form.ao_no} readOnly />
 
         <div className="section-title">Document Proof</div>
         <label>Proof Of Identity</label>
