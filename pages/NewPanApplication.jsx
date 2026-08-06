@@ -134,6 +134,9 @@ useEffect(() => {
     if (!form.gender) return setError('Gender is required');
     if (!form.dob) return setError('Date of Birth is required');
 
+if (!/^\d{12}$/.test(form.aadhaar_number)) {
+  return setError("Aadhaar Number must be exactly 12 digits.");
+}
     setLoading(true);
     try {
       const full_name = [form.first_name, form.middle_name, form.last_name].filter(Boolean).join(' ');
@@ -256,7 +259,17 @@ const payload = {
         <label>Date Of Birth *</label>
         <input type="date" value={form.dob} onChange={(e) => update('dob', e.target.value)} required />
         <label>Aadhaar Number *</label>
-        <input value={form.aadhaar_number} onChange={(e) => update('aadhaar_number', e.target.value)} required />
+<input
+  type="text"
+  value={form.aadhaar_number}
+  maxLength={12}
+  inputMode="numeric"
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, "");
+    update("aadhaar_number", value);
+  }}
+  required
+/>
 
         <label>Address For Communication *</label>
         <select value={form.communication_address} onChange={(e) => update('communication_address', e.target.value)}>
