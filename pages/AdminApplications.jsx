@@ -55,6 +55,7 @@ const navigate = useNavigate();
 <th>Date</th>
 <th>View</th>
 <th>Actions</th>
+          </tr>
           </thead>
           <tbody>
             {applications.map((a) => (
