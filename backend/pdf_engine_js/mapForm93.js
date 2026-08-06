@@ -28,9 +28,14 @@ function plainBox(page, left, top, bottom, text, right = 560, fontSize = 8) {
 
 function tick(page, cx, top, bottom, halfW = 6) {
   return {
+    kind: 'tick',
     page_number: page,
-    entry_bounding_box: [cx - halfW, top - 0.3, cx + halfW, bottom + 0.3],
-    entry_text: { text: 'X', font_size: Math.min(6, bottom - top - 0.6) },
+    entry_bounding_box: [
+      cx - halfW,
+      top - 0.3,
+      cx + halfW,
+      bottom + 0.3
+    ]
   };
 }
 
