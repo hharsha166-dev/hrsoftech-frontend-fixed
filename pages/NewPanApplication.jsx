@@ -33,6 +33,8 @@ const DISTRICTS = {
     "DAVANAGERE",
     "KALABURAGI",
     "VIJAYAPURA"
+    "KOLAR",
+    "CHIKKABALLAPUR"
   ]
 };
 
