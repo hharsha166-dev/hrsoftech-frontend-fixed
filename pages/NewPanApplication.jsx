@@ -32,7 +32,7 @@ const DISTRICTS = {
     "SHIVAMOGGA",
     "DAVANAGERE",
     "KALABURAGI",
-    "VIJAYAPURA"
+    "VIJAYAPURA",
     "KOLAR",
     "CHIKKABALLAPUR"
   ]
